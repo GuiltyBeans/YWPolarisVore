@@ -18,8 +18,8 @@ field_generator power level display
 	desc = "A large thermal battery that projects a high amount of energy when powered."
 	icon = 'icons/obj/machines/field_generator.dmi'
 	icon_state = "Field_Gen"
-	anchored = 0
-	density = 1
+	anchored = FALSE
+	density = TRUE
 	use_power = USE_POWER_OFF
 	var/const/num_power_levels = 6	// Total number of power level icon has
 	var/Varedit_start = 0
@@ -38,19 +38,19 @@ field_generator power level display
 
 
 /obj/machinery/field_generator/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	if(!active)
 		if(warming_up)
-			overlays += "+a[warming_up]"
+			add_overlay("+a[warming_up]")
 	if(fields.len)
-		overlays += "+on"
+		add_overlay("+on")
 	// Power level indicator
 	// Scale % power to % num_power_levels and truncate value
 	var/level = round(num_power_levels * power / field_generator_max_power)
 	// Clamp between 0 and num_power_levels for out of range power values
 	level = between(0, level, num_power_levels)
 	if(level)
-		overlays += "+p[level]"
+		add_overlay("+p[level]")
 
 	return
 
@@ -67,7 +67,7 @@ field_generator power level display
 			active = 1
 			state = 2
 			power = field_generator_max_power
-			anchored = 1
+			anchored = TRUE
 			warming_up = 3
 			start_fields()
 			update_icon()

@@ -69,12 +69,12 @@ List of things solar grubs should be able to do:
 		if(attached)
 			set_AI_busy(TRUE)
 			if(prob(2))
-				src.visible_message("<span class='notice'>\The [src] begins to sink power from the net.</span>")
+				src.visible_message("<b>\The [src]</b> begins to sink power from the net.")
 			if(prob(5))
 				var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread()
 				sparks.set_up(5, 0, get_turf(src))
 				sparks.start()
-			anchored = 1
+			anchored = TRUE
 			PN = attached.powernet
 			PN.draw_power(100000) // previous value 150000
 			var/apc_drain_rate = 750 //Going to see if grubs are better as a minimal bother. previous value : 4000
@@ -86,7 +86,7 @@ List of things solar grubs should be able to do:
 						var/drain_val = min(apc_drain_rate, cur_charge)
 						A.cell.use(drain_val * CELLRATE)
 		else if(!attached && anchored)
-			anchored = 0
+			anchored = FALSE
 			PN = null
 
 /mob/living/simple_mob/vore/solargrub //active noms
